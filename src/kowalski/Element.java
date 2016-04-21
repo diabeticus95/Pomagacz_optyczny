@@ -2,13 +2,14 @@ package kowalski;
 import kowalski.PomagaczOptyczny;
 
 public abstract class Element {
-	float r1, r2, d, n, h, D1, Dc1, D2, Dc2, D, f, h1, h2,z;
+	double r1, r2, d, n, h, D1, Dc1, D2, Dc2, D, f, h1, h2,z;
 	
-	Element(float r1, float r2, float d, float n){
+	Element(double r1, double r2, double d, double n, double h){
 		this.r1 = r1;
 		this.r2 = r2;
 		this.d = d;
 		this.n = n;
+		this.h = h;
 		float n_otoczenia = PomagaczOptyczny.n_otoczenia;
 		
 		D1 = (n-n_otoczenia)/r1;
@@ -20,6 +21,23 @@ public abstract class Element {
 		
 		h1 = -(f*(n-1)*d)/(n*r1);
 		h2 = -(f*(n-1)*d)/(n*r2);
+	}
+
+	public double getZ() {
+		return z;
+	}
+
+	public void setZ(double z) {
+		this.z = z;
+	}
+	public double geth1() {
+		return h1;
+	}
+	public double geth2() {
+		return h2;
+	}
+	public double geth() {
+		return h;
 	}
 	
 }
