@@ -4,7 +4,8 @@ import java.awt.Graphics;
 import kowalski.PomagaczOptyczny;
 
 public abstract class Element {
-	double r1, r2, d, n, h, D1, Dc1, D2, Dc2, D, f, h1, h2,z;
+	double r1, r2, d, n, h, D1, Dc1, D2, Dc2, D, f, h1, h2;
+	int z;
 	
 	Element(double r1, double r2, double d, double n, double h){
 		this.r1 = r1;
@@ -31,7 +32,7 @@ public abstract class Element {
 		return z;
 	}
 
-	public void setZ(double z) {
+	public void setZ(int z) {
 		this.z = z;
 	}
 	public double geth1() {

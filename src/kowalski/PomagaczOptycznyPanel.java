@@ -25,6 +25,7 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
         setBackground(Color.WHITE);
         addMouseListener(this);
         ElementList.add(new Soczewka(10,20,15,1.5,50)); //Just for now, a default lens for testing
+        addElement(new Soczewka(10,20,15,1.5,100));
      }
     
     //Draw the contents of the panel.
@@ -70,6 +71,9 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
     ElementList.get(whichOne).paint(graphicsForDrawing,height, width);
     whichOne++; //so the user has to create another object
     placing = false; //so we don't end up with multiple lenses on image, but just one in collection
+	}
+	public void addElement(Element El){
+		ElementList.add(El);
 	}
 
 	@Override
