@@ -20,7 +20,7 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
    
 	
 	//Constructor sets the background color to be white, and sets it to listen for mouse events on itself
-   //!!! ADD Soczewka lens to the constructor, when merging with GUI!!!
+   //!!! ADD method for adding lenses to container
     PomagaczOptycznyPanel() {
         setBackground(Color.WHITE);
         addMouseListener(this);
@@ -49,8 +49,8 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
 	   g.drawLine(3, 2*height/3, width-3, 2*height/3);
 	   for (int i = 0; i < (width/gridspace + 1); i++){
 	   g.drawLine(0+(gridspace*i), 2*height/3 + grid/2, 0+(gridspace*i), 2*height/3 - grid/2);
-       	}
-   		for (Element el:ElementList) el.paint(g,width,height);
+       }
+	   for (Element el:ElementList) el.paint(g,height,width);
     }
     private void setUpDrawingGraphics() {
         graphicsForDrawing = getGraphics();

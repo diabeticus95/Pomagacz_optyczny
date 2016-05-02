@@ -13,6 +13,6 @@ public class PomagaczOptyczny extends JFrame{
 		      window.setSize(600,480);
 		      window.setLocation(100,100);
 		      window.setVisible(true);		      
-		   }
+	   }
 
 }
