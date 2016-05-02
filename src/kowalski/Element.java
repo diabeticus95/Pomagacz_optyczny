@@ -1,4 +1,6 @@
 package kowalski;
+import java.awt.Graphics;
+
 import kowalski.PomagaczOptyczny;
 
 public abstract class Element {
@@ -21,6 +23,8 @@ public abstract class Element {
 		
 		h1 = -(f*(n-1)*d)/(n*r1);
 		h2 = -(f*(n-1)*d)/(n*r2);
+	}
+	public void paint(Graphics g, int height, int width){
 	}
 
 	public double getZ() {

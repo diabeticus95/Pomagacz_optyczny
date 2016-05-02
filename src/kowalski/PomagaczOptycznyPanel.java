@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
 
    private boolean placing = false; // is the user trying to place the lens in panel?
+   private int whichOne = 0; //which element is the user placing?
    List<Element> ElementList = new ArrayList<Element>(); // Container for lenses
    private Graphics graphicsForDrawing;  // A graphics context for the panel
    										// that is used to draw the lens
@@ -19,6 +20,7 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
    
 	
 	//Constructor sets the background color to be white, and sets it to listen for mouse events on itself
+   //!!! ADD Soczewka lens to the constructor, when merging with GUI!!!
     PomagaczOptycznyPanel() {
         setBackground(Color.WHITE);
         addMouseListener(this);
@@ -26,33 +28,32 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
      }
     
     //Draw the contents of the panel.
-    public void paintComponent(Graphics g) {
-        
+    public void paintComponent(Graphics g) {    	
         super.paintComponent(g);  // Fill with background color (white).
         int width = getWidth();    // Width of the panel.
         int height = getHeight();  // Height of the panel.
         int grid = 10;
         int gridspace = 20;
         
-        /* Draw a 3-pixel border around the applet in gray.  This has to be
-        done by drawing three rectangles of different sizes. */
-       
-       g.setColor(Color.GRAY);
-       g.drawRect(0, 0, width-1, height-1);
-       g.drawRect(1, 1, width-3, height-3);
-       g.drawRect(2, 2, width-5, height-5);
-     
-       //Draw the Z Axis.
-       
-       g.setColor(Color.BLACK);
-       g.drawLine(3, 2*height/3, width-3, 2*height/3);
-       for (int i = 0; i < (width/gridspace + 1); i++){
-    	   g.drawLine(0+(gridspace*i), 2*height/3 + grid/2, 0+(gridspace*i), 2*height/3 - grid/2);
-       }
+	/* Draw a 3-pixel border around the applet in gray.  This has to be
+	done by drawing three rectangles of different sizes. */
+	   
+	   g.setColor(Color.GRAY);
+	   g.drawRect(0, 0, width-1, height-1);
+	   g.drawRect(1, 1, width-3, height-3);
+	   g.drawRect(2, 2, width-5, height-5);
+	 
+	   //Draw the Z Axis.
+	   
+	   g.setColor(Color.BLACK);
+	   g.drawLine(3, 2*height/3, width-3, 2*height/3);
+	   for (int i = 0; i < (width/gridspace + 1); i++){
+	   g.drawLine(0+(gridspace*i), 2*height/3 + grid/2, 0+(gridspace*i), 2*height/3 - grid/2);
+       	}
+   		for (Element el:ElementList) el.paint(g,width,height);
     }
     private void setUpDrawingGraphics() {
         graphicsForDrawing = getGraphics();
-        graphicsForDrawing.setColor(Color.cyan);
     }
     
 	@Override
@@ -64,15 +65,10 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
     int width = getWidth();    // Width of the panel.
     int height = getHeight();  // Height of the panel.
     int x = evt.getX();   // x-coordinate where the user clicked.
-    ElementList.get(0).setZ(x);
-    int tmph, tmph1, tmph2;
-    tmph1 = (int)ElementList.get(0).geth1();
-    tmph2 = (int)ElementList.get(0).geth2();
-    tmph = 	(int)ElementList.get(0).geth();
+    ElementList.get(whichOne).setZ(x);
     setUpDrawingGraphics();
-//    graphicsForDrawing.drawLine(x+tmph1,2*height/3+tmph/2,x+tmph1,height);
-    graphicsForDrawing.drawLine(x+tmph1,2*height/3+tmph/2,x+tmph1,2*height/3-tmph/2);
-    graphicsForDrawing.drawLine(x+tmph2,2*height/3+tmph/2,x+tmph2,2*height/3-tmph/2);
+    ElementList.get(whichOne).paint(graphicsForDrawing,height, width);
+    whichOne++; //so the user has to create another object
     placing = false; //so we don't end up with multiple lenses on image, but just one in collection
 	}
 
