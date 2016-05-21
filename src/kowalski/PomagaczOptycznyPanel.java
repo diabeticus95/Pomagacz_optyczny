@@ -13,7 +13,7 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
 
    private boolean placing = false; // is the user trying to place the lens in panel?
    private int whichOne = 0; //which element is the user placing?
-   List<Element> ElementList = new ArrayList<Element>(); // Container for lenses
+   List<Element> elementList = new ArrayList<Element>(); // Container for lenses
    private Graphics graphicsForDrawing;  // A graphics context for the panel
    										// that is used to draw the lens
    
@@ -24,8 +24,8 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
     PomagaczOptycznyPanel() {
         setBackground(Color.WHITE);
         addMouseListener(this);
-        ElementList.add(new Soczewka(10,20,15,1.5,50)); //Just for now, a default lens for testing
-        addElement(new Soczewka(10,20,15,1.5,100));
+ //       elementList.add(new Soczewka(10,20,15,1.5,50)); //Just for now, a default lens for testing
+ //       addElement(new Soczewka(10,10,30,1.5,100));
      }
     
     //Draw the contents of the panel.
@@ -51,7 +51,7 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
 	   for (int i = 0; i < (width/gridspace + 1); i++){
 	   g.drawLine(0+(gridspace*i), 2*height/3 + grid/2, 0+(gridspace*i), 2*height/3 - grid/2);
        }
-	   for (Element el:ElementList) el.paint(g,height,width);
+	   for (Element el:elementList) el.paint(g,height,width);
     }
     private void setUpDrawingGraphics() {
         graphicsForDrawing = getGraphics();
@@ -59,32 +59,37 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
     
 	@Override
 	public void mouseClicked(MouseEvent evt) {
-		placing = true; //just for tests
-		// TODO Auto-generated method stub
+		//placing = true; //just for tests
 		if (placing == false) // if the user hadn't just clicked the 'place lens' button quit function
 			return;
     int width = getWidth();    // Width of the panel.
     int height = getHeight();  // Height of the panel.
     int x = evt.getX();   // x-coordinate where the user clicked.
-    ElementList.get(whichOne).setZ(x);
+//looking for collisions
+    for (Element el:elementList){
+    	if (!(x < el.z+el.h1 || x > el.z + el.h2)){
+    		System.out.println("Kolizja!");
+    		return;
+    	}
+    }
+    elementList.get(whichOne).setZ(x);
     setUpDrawingGraphics();
-    ElementList.get(whichOne).paint(graphicsForDrawing,height, width);
+    elementList.get(whichOne).paint(graphicsForDrawing,height, width);
     whichOne++; //so the user has to create another object
     placing = false; //so we don't end up with multiple lenses on image, but just one in collection
 	}
-	public void addElement(Element El){
-		ElementList.add(El);
+	public void addLens(double r1, double r2, double d, double n, double h){
+		Element el = new Soczewka(r1, r2, d, n, h);
+		elementList.add(el);
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent evt) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent evt) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -95,12 +100,16 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent evt) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public void setPlacing(boolean placing) {
 		this.placing = placing;
+	}
+	public List<Element> getelementList(){
+		return elementList;
+	}
+	public void setelementList(List<Element> newList){
+		elementList = newList;
 	}
 
 }
