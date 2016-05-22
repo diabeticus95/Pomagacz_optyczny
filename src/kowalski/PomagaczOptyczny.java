@@ -28,6 +28,7 @@ public class PomagaczOptyczny{
 		      }
 		      content.addLens(10,20,10,1.5,20);
 		      content.setPlacing(true);
+		      RayCalculator engine = new RayCalculator(content);
 	   }
 
 }

@@ -13,20 +13,9 @@ public class RayCalculator {
 	List<Double> startPoints = new ArrayList<Double>(); //y coordinates
 	
 	
-	RayCalculator(List<Element> elementList){
+	RayCalculator(PomagaczOptycznyPanel content){
 		addRays();
-		elementListForCalculations = elementList;
-		Collections.sort(elementListForCalculations, new Comparator<Element>(){
-			@Override
-			public int compare(Element el1, Element el2) {
-				return (el1.z+el1.h1<el2.z+el2.h1) ? -1 : 1; //conditional operator, returns -1 if a<b, and 1 if a>b. It's enough to check the first surface of lens, cause they already are not colliding
-			}
-		});
-		keyPoints.add(calculate(elementListForCalculations.get(0), 1.79769e+308));
-		
-		
-
-		
+		updateElementList(content.getelementList());
 	}
 	public void addRays(){
 		startPoints.add(raysAmount*-5.0);
@@ -37,4 +26,18 @@ public class RayCalculator {
 		double So = (el.f + Sp) / (el.f*Sp);
 		return So;
 	}
+	public void updateElementList(List<Element> updatedList){
+		elementListForCalculations = updatedList;
+		Collections.sort(elementListForCalculations, new Comparator<Element>(){
+			@Override
+			public int compare(Element el1, Element el2) {
+				return (el1.z+el1.h1<el2.z+el2.h1) ? -1 : 1; //conditional operator, returns -1 if a<b, and 1 if a>b. It's enough to check the first surface of lens, cause they already are not colliding
+			}
+		});
+	}
+	public void simulate(){
+		//za inf dać startingPoint i zastosować rekurencję w calculate
+		keyPoints.add(calculate(elementListForCalculations.get(0), 1.79769e+308));
+	}
+	//użyć zainicjalizować RayCalc w mainie na początku
 }

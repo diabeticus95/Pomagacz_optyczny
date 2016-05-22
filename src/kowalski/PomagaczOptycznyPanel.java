@@ -13,6 +13,8 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
 
    private boolean placing = false; // is the user trying to place the lens in panel?
    private int whichOne = 0; //which element is the user placing?
+   private double startingPoint = 0;
+   //przepisac mouseClicked na switcha, placing na placingLens i placingStartingPoint
    List<Element> elementList = new ArrayList<Element>(); // Container for lenses
    private Graphics graphicsForDrawing;  // A graphics context for the panel
    										// that is used to draw the lens
