@@ -39,5 +39,4 @@ public class RayCalculator {
 		//za inf dać startingPoint i zastosować rekurencję w calculate
 		keyPoints.add(calculate(elementListForCalculations.get(0), 1.79769e+308));
 	}
-	//użyć zainicjalizować RayCalc w mainie na początku
 }
