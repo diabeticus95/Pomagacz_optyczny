@@ -2,6 +2,7 @@ package kowalski;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -11,10 +12,11 @@ import javax.swing.JPanel;
 
 public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
 
-   private boolean placing = false; // is the user trying to place the lens in panel?
-   private int whichOne = 0; //which element is the user placing?
-   private double startingPoint = 0;
-   //przepisac mouseClicked na switcha, placing na placingLens i placingStartingPoint
+   private boolean placingLens = false; // is the user trying to place the lens in panel?
+   private boolean placingStartingPoint = false;
+   private int whichOne = 0; //which element is the user placingLens?
+   private Point startingPoint = new Point(0, 30);
+   //przepisac mouseClicked na switcha, placingLens na placingLensLens i placingLensStartingPoint
    List<Element> elementList = new ArrayList<Element>(); // Container for lenses
    private Graphics graphicsForDrawing;  // A graphics context for the panel
    										// that is used to draw the lens
@@ -61,24 +63,44 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
     
 	@Override
 	public void mouseClicked(MouseEvent evt) {
-		//placing = true; //just for tests
-		if (placing == false) // if the user hadn't just clicked the 'place lens' button quit function
+		if (placingLens == true && placingStartingPoint == true){ //just to be sure
+			System.out.println("obie flagi placing są włączone, coś poszło nie tak");
 			return;
-    int width = getWidth();    // Width of the panel.
-    int height = getHeight();  // Height of the panel.
-    int x = evt.getX();   // x-coordinate where the user clicked.
-//looking for collisions
-    for (Element el:elementList){
-    	if (!(x < el.z+el.h1 || x > el.z + el.h2)){
-    		System.out.println("Kolizja!");
-    		return;
-    	}
-    }
-    elementList.get(whichOne).setZ(x);
-    setUpDrawingGraphics();
-    elementList.get(whichOne).paint(graphicsForDrawing,height, width);
-    whichOne++; //so the user has to create another object
-    placing = false; //so we don't end up with multiple lenses on image, but just one in collection
+		}
+		else if (placingLens == true){
+		    int width = getWidth();    // Width of the panel.
+		    int height = getHeight();  // Height of the panel.
+		    int x = evt.getX();   // x-coordinate where the user clicked.
+	//looking for collisions
+		    for (Element el:elementList){
+		    	if (!(x < el.z+el.h1 || x > el.z + el.h2)){
+		    		System.out.println("Kolizja!");
+		    		return;
+		    	}
+		    }
+		    elementList.get(whichOne).setZ(x);
+		    setUpDrawingGraphics();
+		    elementList.get(whichOne).paint(graphicsForDrawing,height, width);
+		    whichOne++; //so the user has to create another object
+		    placingLens = false; //so we don't end up with multiple lenses on image, but just one in collection
+		}
+		else if (placingStartingPoint == true){
+		    int width = getWidth();    // Width of the panel.
+		    int height = getHeight();  // Height of the panel.
+		    int x = evt.getX();   // x-coordinate where the user clicked.
+		    int y = evt.getY();
+// it cannot be further than first lens
+		    for (Element el:elementList){
+		    	if (!(x > el.z+el.h1)){
+		    		System.out.println("Przedmiot nie może wyprzedzać soczewki!");
+		    		return;
+		    	}
+		    }
+		    startingPoint.x = x; startingPoint.y = y;
+			
+		}
+		else				//if the user hadn't just clicked the 'place lens' button quit function
+			return;
 	}
 	public void addLens(double r1, double r2, double d, double n, double h){
 		Element el = new Soczewka(r1, r2, d, n, h);
@@ -104,14 +126,17 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
 	public void mouseReleased(MouseEvent evt) {
 	}
 
-	public void setPlacing(boolean placing) {
-		this.placing = placing;
+	public void setplacingLens(boolean placingLens) {
+		this.placingLens = placingLens;
 	}
 	public List<Element> getelementList(){
 		return elementList;
 	}
 	public void setelementList(List<Element> newList){
 		elementList = newList;
+	}
+	public Point getStartingPoint(){
+		return startingPoint;
 	}
 
 }

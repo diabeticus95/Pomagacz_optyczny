@@ -20,15 +20,22 @@ public class PomagaczOptyczny{
 		    	    Thread.currentThread().interrupt();
 		      }
 		      content.addLens(10,20,10,1.5,20);
-		      content.setPlacing(true);
+		      content.setplacingLens(true);
 		      try {
 		    	    Thread.sleep(1000);                 //dopoki uzytkownik nie moze wstawic następnej
 		      } catch(InterruptedException ex) {
 		    	    Thread.currentThread().interrupt();
 		      }
-		      content.addLens(10,20,10,1.5,20);
-		      content.setPlacing(true);
+//		      content.addLens(10,20,10,1.5,20);
+//		      content.setplacingLens(true);
 		      RayCalculator engine = new RayCalculator(content);
+		      engine.simulate();
+		      try {
+		    	    Thread.sleep(1000);                 //just because
+		      } catch(InterruptedException ex) {
+		    	    Thread.currentThread().interrupt();
+		      }
+		      engine.paintRay(content);
 	   }
 
 }
