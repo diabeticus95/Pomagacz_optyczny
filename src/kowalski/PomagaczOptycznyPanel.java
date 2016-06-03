@@ -14,7 +14,7 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
 
    private boolean placingLens = false; // is the user trying to place the lens in panel?
    private boolean placingStartingPoint = false;
-   private int whichOne = 0; //which element is the user placingLens?
+   private int whichOne = 0; //which element is the user placing?
    private Point startingPoint = new Point(0, 30);
    //przepisac mouseClicked na switcha, placingLens na placingLensLens i placingLensStartingPoint
    List<Element> elementList = new ArrayList<Element>(); // Container for lenses
@@ -71,7 +71,7 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
 		    int width = getWidth();    // Width of the panel.
 		    int height = getHeight();  // Height of the panel.
 		    int x = evt.getX();   // x-coordinate where the user clicked.
-	//looking for collisions
+	//looking for collisions nie działa
 		    for (Element el:elementList){
 		    	if (!(x < el.z+el.h1 || x > el.z + el.h2)){
 		    		System.out.println("Kolizja!");

@@ -19,11 +19,15 @@ public class RayCalculator {
 	RayCalculator(PomagaczOptycznyPanel content){
 		update(content.getelementList(), content.getStartingPoint());
 	}
-	private double calculate(Element el, double Sp){ //iterated through elementList || Sp = last elements So -> inf if el is first
-		double So = (el.f + Sp) / (el.f*Sp);
-		return So;
+	private Point calculate(Element el, Point Sp){ //iterated through elementList
+		Point So = new Point(0,0);
+		int x = (int)(-el.z - el.h1 + Sp.x); //x ujemne
+		So.x = (int)((el.f + x) / (el.f*x)) + el.z;
+		So.y = So.x/Sp.x * Sp.y; //powiekszenie
+		System.out.println(So.x+" "+So.y);//to z jakiegos powodu (0,0)
+		return So; 
 	}
-	public void update(List<Element> updatedList, Point startingPoint){
+	public void update(List<Element> updatedList, Point startingPoint){ //pobieranie z content
 		elementListForCalculations = updatedList;
 		Collections.sort(elementListForCalculations, new Comparator<Element>(){
 			@Override
@@ -36,8 +40,13 @@ public class RayCalculator {
 	public void simulate(){
 		//za inf dać startingPoint i zastosować rekurencję w calculate
 		keyPoints.add(startingPoint);
+
 //tu keypoints(0) = 0.320
 		keyPoints.add(new Point((int)elementListForCalculations.get(0).z+(int)elementListForCalculations.get(0).h1, (int)elementListForCalculations.get(0).h/2));
+		keyPoints.add(new Point((int)elementListForCalculations.get(0).z-(int)elementListForCalculations.get(0).h2, (int)elementListForCalculations.get(0).h/2));
+		for(int i = 1; i<elementListForCalculations.size(); i++){
+			keyPoints.add(new Point(calculate(elementListForCalculations.get(i), keyPoints.get(keyPoints.size()-1)))); 
+		}
 		for (Point pt:keyPoints) System.out.println(pt);
 // cos dziwnego points(1) = -10, 20, niewazne gdzie klikam
 	}
@@ -55,7 +64,5 @@ public class RayCalculator {
 			graphicsForRay.drawLine(fixedKP.get(i).x, fixedKP.get(i).y, fixedKP.get(i+1).x, fixedKP.get(i+1).y);
 			
 		}
-//		graphicsForRay.drawLine(fixedKP.get(0).x, fixedKP.get(0).y, 200, 200);
-// okazuje sie ze fixedKP.get(0) != startingPoint
 	}
 }
