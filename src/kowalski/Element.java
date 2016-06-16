@@ -1,19 +1,19 @@
 package kowalski;
 import java.awt.Graphics;
 
-import kowalski.PomagaczOptyczny;
+import GUI.MAIN_v1;
 
 public abstract class Element {
-	double r1, r2, d, n, h, D1, Dc1, D2, Dc2, D, f, h1, h2;
+	double r1, r2, d, n, h, n_otoczenia, D1, Dc1, D2, Dc2, D, f, h1, h2;
 	int z;
 	
-	Element(double r1, double r2, double d, double n, double h){
+	Element(double r1, double r2, double d, double n, double h, double n_otoczenia){
 		this.r1 = r1;
 		this.r2 = r2;
 		this.d = d;
 		this.n = n;
 		this.h = h;
-		float n_otoczenia = PomagaczOptyczny.n_otoczenia;
+		this.n_otoczenia = n_otoczenia;
 		
 		D1 = (n-n_otoczenia)/r1;
 		D2 = (1-n)/r2;
@@ -43,6 +43,24 @@ public abstract class Element {
 	}
 	public double geth() {
 		return h;
+	}
+	public double getD1() {
+		return D1;
+	}
+	public double getD2() {
+		return D2;
+	}
+	public double getDc1() {
+		return Dc1;
+	}
+	public double getDc2() {
+		return Dc2;
+	}
+	public double getD() {
+		return D;
+	}
+	public double getf() {
+		return f;
 	}
 	
 }

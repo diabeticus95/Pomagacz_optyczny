@@ -5,8 +5,8 @@ import java.awt.Graphics;
 
 public class Soczewka extends Element{
 
-	Soczewka(double r1, double r2, double d, double n, double h) {
-		super(r1, r2, d, n, h);
+	Soczewka(double r1, double r2, double d, double n, double h, double n_otoczenia) {
+		super(r1, r2, d, n, h,n_otoczenia);
 	}
 	public void paint(Graphics g, int height, int width){ //height i width odnosi się do panelu, nie soczewki
 	g.setColor(Color.cyan);

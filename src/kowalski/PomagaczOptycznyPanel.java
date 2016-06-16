@@ -14,8 +14,8 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
 
    private boolean placingLens = false; // is the user trying to place the lens in panel?
    private boolean placingStartingPoint = false;
-   private int whichOne = 0; //which element is the user placing?
-   private Point startingPoint = new Point(0, 30);
+   private int whichOne = 0; //which element is the user placingLens?
+   private Point startingPoint = new Point(0,0);
    //przepisac mouseClicked na switcha, placingLens na placingLensLens i placingLensStartingPoint
    List<Element> elementList = new ArrayList<Element>(); // Container for lenses
    private Graphics graphicsForDrawing;  // A graphics context for the panel
@@ -25,7 +25,7 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
 	
 	//Constructor sets the background color to be white, and sets it to listen for mouse events on itself
    //!!! ADD method for adding lenses to container
-    PomagaczOptycznyPanel() {
+    public PomagaczOptycznyPanel() {
         setBackground(Color.WHITE);
         addMouseListener(this);
  //       elementList.add(new Soczewka(10,20,15,1.5,50)); //Just for now, a default lens for testing
@@ -55,7 +55,7 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
 	   for (int i = 0; i < (width/gridspace + 1); i++){
 	   g.drawLine(0+(gridspace*i), 2*height/3 + grid/2, 0+(gridspace*i), 2*height/3 - grid/2);
        }
-	   for (Element el:elementList) el.paint(g,height,width);
+//	   for (Element el:elementList) el.paint(g,height,width);
     }
     private void setUpDrawingGraphics() {
         graphicsForDrawing = getGraphics();
@@ -102,8 +102,8 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
 		else				//if the user hadn't just clicked the 'place lens' button quit function
 			return;
 	}
-	public void addLens(double r1, double r2, double d, double n, double h){
-		Element el = new Soczewka(r1, r2, d, n, h);
+	public void addLens(double r1, double r2, double d, double n, double h, double n_otoczenia){
+		Element el = new Soczewka(r1, r2, d, n, h, n_otoczenia);
 		elementList.add(el);
 	}
 
@@ -138,5 +138,11 @@ public class PomagaczOptycznyPanel extends JPanel implements MouseListener {
 	public Point getStartingPoint(){
 		return startingPoint;
 	}
-
+	public void erasePanel(){
+		repaint();
+		elementList.clear();	
+	}
+	public void resetWhichOne(){
+		whichOne = 0;
+	}
 }
